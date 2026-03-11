@@ -5,7 +5,10 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors());
+
+app.use(cors({
+  origin: "*"
+}));
 app.use(express.json());
 
 app.post("/contact", async (req, res) => {
@@ -14,6 +17,10 @@ app.post("/contact", async (req, res) => {
   if (!email || !message) {
     return res.status(400).json({ error: "Missing fields" });
   }
+  if (!email.includes("@")) {
+  return res.status(400).json({ error: "Invalid email" });
+}
+
 
   try {
 
