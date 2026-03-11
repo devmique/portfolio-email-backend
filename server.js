@@ -6,11 +6,14 @@ require("dotenv").config();
 
 const app = express();
 
+app.set("trust proxy", 1); // Required for Render (proxy environment)
+
 // Only allow your portfolio's domain
 app.use(cors({
   origin: "https://devmique.vercel.app" 
 }));
 app.use(express.json({ limit: "10kb" })); // prevent large payload attacks
+
 
 // Rate limit: max 5 emails per 15 minutes per IP
 const limiter = rateLimit({
