@@ -11,6 +11,10 @@ app.use(cors({
 }));
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("Portfolio Email API running");
+});
+
 app.post("/contact", async (req, res) => {
   const { email, message } = req.body;
 
