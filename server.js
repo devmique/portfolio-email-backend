@@ -42,7 +42,7 @@ app.post("/contact", async (req, res) => {
 
     try {
     await resend.emails.send({
-      from: process.env.EMAIL_USER,
+      from: 'onboarding@resend.dev',
       to: process.env.EMAIL_USER,
       replyTo: email,
       subject: "Portfolio Contact",
