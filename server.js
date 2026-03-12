@@ -1,12 +1,12 @@
 const express = require("express");
-const sgMail = require("@sendgrid/mail");
+const {Resend}= require("resend");
 const rateLimit = require("express-rate-limit");
 const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 app.set("trust proxy", 1);
 
@@ -24,7 +24,7 @@ const limiter = rateLimit({
 app.use("/contact", limiter);
 
 app.get("/", (req, res) => {
-  res.send(`Portfolio Email API running | SENDGRID: ${process.env.SENDGRID_API_KEY ? "✅ set" : "❌ missing"}`);
+  res.send(`Portfolio Email API running |Resend: ${process.env.RESEND_API_KEY ? "✅ set" : "❌ missing"}`);
 });
 
 app.post("/contact", async (req, res) => {
@@ -41,9 +41,9 @@ app.post("/contact", async (req, res) => {
   }
 
     try {
-    await sgMail.send({
+    await resend.emails.send({
+      from: EMAIL_USER,
       to: process.env.EMAIL_USER,
-      from: process.env.EMAIL_USER,
       replyTo: email,
       subject: "Portfolio Contact",
       text: `From: ${email}\n\n${message}`,
