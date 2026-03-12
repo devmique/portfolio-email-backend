@@ -40,15 +40,16 @@ app.post("/contact", async (req, res) => {
     return res.status(400).json({ error: "Input too long" });
   }
 
-  try {
+    try {
     await sgMail.send({
-      to: process.env.RECEIVER_EMAIL,   // your Gmail to receive messages
-      from: process.env.SENDER_EMAIL,   // must match verified sender in SendGrid
+      to: process.env.EMAIL_USER,
+      from: process.env.EMAIL_USER,
       replyTo: email,
       subject: "Portfolio Contact",
       text: `From: ${email}\n\n${message}`,
       html: `<p><strong>From:</strong> ${email}</p><p>${message}</p>`
     });
+
 
     res.json({ success: true });
   } catch (error) {
